@@ -30,7 +30,7 @@ namespace ChocolateReviews
             }
 
             SqlConnection connection = new SqlConnection();
-            connection.ConnectionString= @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\tmp\Reviews.mdf;Integrated Security=True";
+            connection.ConnectionString= @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\tmp\Reviewss.mdf;Integrated Security=True";
             connection.Open();
             Console.WriteLine("Hooray! We have a database!");
             connection.Close();
