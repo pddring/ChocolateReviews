@@ -30,7 +30,7 @@ namespace ChocolateReviews
             }
 
             SqlConnection connection = new SqlConnection();
-            connection.ConnectionString= @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\tmp\Reviewss.mdf;Integrated Security=True";
+            connection.ConnectionString= @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\tmp\Reviews.mdf;Integrated Security=True";
             connection.Open();
             Console.WriteLine("Hooray! We have a database!");
             connection.Close();
@@ -103,7 +103,42 @@ namespace ChocolateReviews
                         connection.Close();
                         break;
                     case "3":
-                        Console.WriteLine("Which review would you like to update? (enter ID):");
+                        // edit review
+                        int reviewID = ValidatedInput.ReadInt("Which review would you like to update? (enter ID):");
+                        connection.Open();
+                        sql = "SELECT * FROM Reviews WHERE ReviewID = @ReviewID";
+                        SqlCommand editCommand = new SqlCommand(sql, connection);
+                        editCommand.Parameters.AddWithValue("ReviewID", reviewID);
+                        r = editCommand.ExecuteReader();
+                        if(r.Read())
+                        {
+                            Review reviewToEdit = new Review(r);
+                            connection.Close();
+                            Console.WriteLine("Record found: " + reviewToEdit);
+
+                            reviewToEdit.ChocolateBarID = ValidatedInput.ReadInt("Enter new ChocolateBarID:");
+                            reviewToEdit.UserID = ValidatedInput.ReadInt("Enter new UserID:");
+                            reviewToEdit.Score = ValidatedInput.ReadInt("Enter new score (1-5):");
+                            reviewToEdit.Comment = ValidatedInput.ReadString("Enter a new comment:", 0, 255);
+                            sql = "UPDATE Reviews " +
+                                "SET ChocolateBarId=@ChocolateBarID, UserID=@UserID, Score=@Score, Comment=@Comment " +
+                                "WHERE ReviewID=@ReviewID";
+                            
+                            SqlCommand editCommandUpdate = new SqlCommand(sql, connection);
+                            connection.Open();
+                            editCommandUpdate.Parameters.AddWithValue("ChocolateBarID", reviewToEdit.ChocolateBarID);
+                            editCommandUpdate.Parameters.AddWithValue("UserID", reviewToEdit.UserID);
+                            editCommandUpdate.Parameters.AddWithValue("Score", reviewToEdit.Score);
+                            editCommandUpdate.Parameters.AddWithValue("Comment", reviewToEdit.Comment);
+                            editCommandUpdate.Parameters.AddWithValue("ReviewID", reviewToEdit.ReviewID);
+                            editCommandUpdate.ExecuteNonQuery();
+                            Console.WriteLine("Record updated");
+                        } else
+                        {
+                            Console.WriteLine("Record not found");
+                        }
+                        connection.Close();
+
                         break;
                     case "4":
                         Console.WriteLine("Which review would you like to delete? (enter ID):");

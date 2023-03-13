@@ -44,5 +44,10 @@ namespace ChocolateReviews
             Score = (int)r["Score"];
             Comment = (string)r["Comment"];
         }
+
+        public override string ToString()
+        {
+            return $"ReviewID: {ReviewID}   ChocolateBarID: {ChocolateBarID}    UserID: {UserID}    Score: {Score}  Comment: {Comment}";
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿--Create the chocolate bar table
 CREATE TABLE ChocolateBars
 (
-	[ChocolateBarID] INT NOT NULL PRIMARY KEY, 
+	[ChocolateBarID] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
     [Name] NCHAR(128) NULL, 
     [Price] MONEY NULL
 );
@@ -9,7 +9,7 @@ CREATE TABLE ChocolateBars
 -- Create the review link table
 CREATE TABLE Reviews
 (
-	[ReviewID] INT NOT NULL PRIMARY KEY, 
+	[ReviewID] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
     [ChocolateBarID] INT NOT NULL, 
     [UserID] INT NOT NULL, 
     [Score] INT NOT NULL DEFAULT 0, 
@@ -19,7 +19,7 @@ CREATE TABLE Reviews
 -- Create the user table
 CREATE TABLE Users
 (
-	[UserID] INT NOT NULL PRIMARY KEY, 
+	[UserID] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
     [FirstName] NCHAR(128) NOT NULL DEFAULT '', 
     [LastName] NCHAR(128) NOT NULL DEFAULT ''
 )
